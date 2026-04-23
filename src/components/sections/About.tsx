@@ -3,7 +3,13 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Code2, Smartphone, Brain, Heart } from "lucide-react";
-import { fadeUp, fadeLeft, fadeRight, staggerContainer, viewportOptions } from "@/lib/animations";
+import {
+  fadeUp,
+  fadeLeft,
+  fadeRight,
+  staggerContainer,
+  viewportOptions,
+} from "@/lib/animations";
 import { techStack } from "@/data/skills";
 
 const pillars = [
@@ -39,7 +45,10 @@ const pillars = [
 
 export default function About() {
   return (
-    <section id="about" className="section-padding bg-zinc-950 dark:bg-surface-950 relative overflow-hidden">
+    <section
+      id="about"
+      className="section-padding bg-zinc-950 dark:bg-surface-950 relative overflow-hidden"
+    >
       {/* Decorative top border */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-600/50 to-transparent" />
 
@@ -52,10 +61,11 @@ export default function About() {
           viewport={viewportOptions}
           className="text-center mb-16"
         >
-          <p className="text-sm font-mono text-primary-400 uppercase tracking-[0.2em] mb-3">About Me</p>
+          <p className="text-sm font-mono text-primary-400 uppercase tracking-[0.2em] mb-3">
+            About Me
+          </p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-white">
-            Turning Ideas into{" "}
-            <span className="text-gradient">Reality</span>
+            Turning Ideas into <span className="text-gradient">Reality</span>
           </h2>
         </motion.div>
 
@@ -71,21 +81,35 @@ export default function About() {
             <div className="relative">
               {/* Outer spinning gradient ring */}
               <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-primary-600 via-secondary-500 to-primary-800 opacity-20 blur-xl animate-float" />
-              <div className="relative h-64 w-64 md:h-80 md:w-80 rounded-3xl overflow-hidden border-2 border-zinc-800/80
-                              bg-gradient-to-br from-zinc-900 to-zinc-800 flex flex-col items-center justify-center gap-3">
-                {/* Initials avatar */}
-                <div className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-4xl font-extrabold text-white shadow-2xl">
-                  OI
-                </div>
-                <p className="text-zinc-400 text-sm font-medium">Osuald Iradukunda</p>
-                <p className="text-zinc-600 text-xs">Software Engineer</p>
 
-                {/* Replace with: */}
-                <Image src="/images/avatar.jpg" alt="Osuald Iradukunda" fill className="object-cover" /> 
+              {/* 1. Updated Container: added 'relative' and 'z-0' */}
+              <div
+                className="relative h-64 w-64 md:h-80 md:w-80 rounded-3xl overflow-hidden border-2 border-zinc-800/80
+                    bg-gradient-to-br from-zinc-900 to-zinc-800 flex flex-col items-center justify-center shadow-2xl"
+              >
+                {/* 2. Your Image with the fit fix */}
+                <Image
+                  src="/images/avatar.jpg"
+                  alt="Osuald Iradukunda"
+                  fill
+                  className="object-cover object-top z-10" // added object-top and z-index
+                  priority
+                />
+
+                {/* 3. Fallback: This only shows if the image fails to load or is transparent */}
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <div className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-4xl font-extrabold text-white">
+                    OI
+                  </div>
+                  <p className="text-zinc-400 text-sm font-medium">
+                    Osuald Iradukunda
+                  </p>
+                  <p className="text-zinc-600 text-xs">Software Engineer</p>
+                </div>
               </div>
 
-              {/* Status badge */}
-              <div className="absolute -bottom-4 -right-4 px-4 py-2 rounded-xl bg-emerald-900/60 border border-emerald-700/50 text-emerald-400 text-sm font-semibold flex items-center gap-2 shadow-lg">
+              {/* Status badge - added z-20 to ensure it stays on top of the image */}
+              <div className="absolute -bottom-4 -right-4 px-4 py-2 rounded-xl bg-emerald-900/60 border border-emerald-700/50 text-emerald-400 text-sm font-semibold flex items-center gap-2 shadow-lg z-20">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                 Open to Work
               </div>
@@ -102,28 +126,39 @@ export default function About() {
           >
             <div className="space-y-4 text-zinc-400 leading-relaxed text-[15px]">
               <p>
-                Hey! I'm <span className="text-white font-semibold">Osuald Iradukunda</span>, a passionate
-                Computer Engineering student at the{" "}
-                <span className="text-primary-400 font-medium">University of Rwanda</span> and a
-                self-driven software engineer with a love for building things that matter.
+                Hey! I'm{" "}
+                <span className="text-white font-semibold">
+                  Osuald Iradukunda
+                </span>
+                , a passionate Computer Engineering student at the{" "}
+                <span className="text-primary-400 font-medium">
+                  University of Rwanda
+                </span>{" "}
+                and a self-driven software engineer with a love for building
+                things that matter.
               </p>
               <p>
                 My stack centers on{" "}
-                <span className="text-white font-medium">Flutter & Dart</span> for mobile apps and{" "}
-                <span className="text-white font-medium">Python</span> for backends, data pipelines, and
-                machine-learning solutions. I believe great software starts with understanding the{" "}
+                <span className="text-white font-medium">Flutter & Dart</span>{" "}
+                for mobile apps and{" "}
+                <span className="text-white font-medium">Python</span> for
+                backends, data pipelines, and machine-learning solutions. I
+                believe great software starts with understanding the{" "}
                 <em>problem</em>, not the technology.
               </p>
               <p>
-                When I'm not coding, you'll find me contributing to open-source projects, exploring
-                new frameworks, or mentoring peers at university. I'm on a mission to build tools
-                that genuinely improve lives across Africa and beyond.
+                When I'm not coding, you'll find me contributing to open-source
+                projects, exploring new frameworks, or mentoring peers at
+                university. I'm on a mission to build tools that genuinely
+                improve lives across Africa and beyond.
               </p>
             </div>
 
             {/* Tech stack tags */}
             <div>
-              <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-3">Tech I work with</p>
+              <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-3">
+                Tech I work with
+              </p>
               <div className="flex flex-wrap gap-2">
                 {techStack.map((tech) => (
                   <span

@@ -70,9 +70,9 @@ export default function Header() {
           <Link
             href="/"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-2 group"
+            className="flex items-center  group"
           >
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary-900/30 group-hover:shadow-primary-600/40 transition-shadow">
+            <div className="h-8 w-6 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary-900/30 group-hover:shadow-primary-600/40 transition-shadow">
               O
             </div>
             <span className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
