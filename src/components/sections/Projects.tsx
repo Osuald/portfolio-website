@@ -2,28 +2,42 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Star } from "lucide-react";
+import { ExternalLink, Smartphone, Globe, Terminal, LineChart, Folder } from "lucide-react";
 import { GithubIcon } from "@/components/ui/SocialIcons";
 import { projects } from "@/data/projects";
 import { fadeUp, staggerContainer, scaleUp, viewportOptions } from "@/lib/animations";
 
 const categories = ["All", "Mobile App", "ML / Web", "Web", "CLI Tool"];
 
+const categoryIcon: Record<string, React.ElementType> = {
+  "Mobile App": Smartphone,
+  "ML / Web":   LineChart,
+  "Web":        Globe,
+  "CLI Tool":   Terminal,
+  "Portfolio":  Folder,
+};
+
+const categoryColor: Record<string, string> = {
+  "Mobile App": "bg-seafoam-500",
+  "ML / Web":   "bg-indigo-400",
+  "Web":        "bg-sky-400",
+  "CLI Tool":   "bg-amber-400",
+  "Portfolio":  "bg-rose-400",
+};
+
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filtered =
-    activeCategory === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+  const filtered = activeCategory === "All"
+    ? projects
+    : projects.filter((p) => p.category === activeCategory);
 
   const featured = filtered.filter((p) => p.featured);
   const others   = filtered.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="section-padding bg-zinc-900/30 relative overflow-hidden">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-secondary-600/40 to-transparent" />
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-600/30 to-transparent" />
+    <section id="projects" className="section-padding bg-cream-100 dark:bg-night-950 relative overflow-hidden">
+      <div className="absolute top-0 inset-x-0 divider-seafoam" />
 
       <div className="container-custom">
         {/* Heading */}
@@ -34,16 +48,16 @@ export default function Projects() {
           viewport={viewportOptions}
           className="text-center mb-10"
         >
-          <p className="text-sm font-mono text-secondary-400 uppercase tracking-[0.2em] mb-3">My Work</p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+          <p className="label-mono mb-3">My Work</p>
+          <h2 className="font-mono text-3xl md:text-4xl font-bold text-ink-900 dark:text-cream-100 mb-3">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-zinc-400 max-w-xl mx-auto text-[15px]">
-            A selection of work spanning Flutter apps, Python backends, and ML solutions.
+          <p className="text-ink-500 dark:text-ink-400 max-w-xl mx-auto text-[15px]">
+            Flutter apps, Python backends, and ML solutions built for real problems.
           </p>
         </motion.div>
 
-        {/* Filter Tabs */}
+        {/* Filter tabs */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -55,10 +69,10 @@ export default function Projects() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
                 ${activeCategory === cat
-                  ? "bg-primary-600 text-white shadow-lg shadow-primary-900/30"
-                  : "bg-zinc-800/60 border border-zinc-700/50 text-zinc-400 hover:border-primary-700/50 hover:text-primary-300"
+                  ? "bg-seafoam-500 text-white shadow-sm"
+                  : "bg-white dark:bg-night-800 border border-cream-300 dark:border-night-700 text-ink-600 dark:text-ink-400 hover:border-seafoam-400 hover:text-seafoam-600 dark:hover:text-seafoam-400"
                 }`}
             >
               {cat}
@@ -70,21 +84,19 @@ export default function Projects() {
         <AnimatePresence mode="wait">
           {featured.length > 0 && (
             <motion.div
-              key={activeCategory + "-featured"}
+              key={activeCategory + "-f"}
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8"
             >
-              {featured.map((project) => (
-                <ProjectCard key={project.id} project={project} featured />
-              ))}
+              {featured.map((p) => <ProjectCard key={p.id} project={p} featured />)}
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Other Projects */}
+        {/* Other projects */}
         {others.length > 0 && (
           <>
             <motion.p
@@ -92,32 +104,24 @@ export default function Projects() {
               initial="hidden"
               whileInView="visible"
               viewport={viewportOptions}
-              className="text-sm font-mono text-zinc-500 uppercase tracking-widest text-center mb-6"
+              className="label-mono text-center mb-6"
             >
-              Other Projects
+              More Projects
             </motion.p>
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOptions}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             >
-              {others.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
+              {others.map((p) => <ProjectCard key={p.id} project={p} />)}
             </motion.div>
           </>
         )}
 
         {filtered.length === 0 && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-zinc-500 py-20"
-          >
-            No projects in this category yet.
-          </motion.p>
+          <p className="text-center text-ink-400 py-16 text-sm">No projects in this category yet.</p>
         )}
       </div>
     </section>
@@ -131,92 +135,82 @@ function ProjectCard({
   project: (typeof projects)[number];
   featured?: boolean;
 }) {
+  const Icon  = categoryIcon[project.category] ?? Folder;
+  const color = categoryColor[project.category] ?? "bg-slate-400";
+
   return (
     <motion.article
       variants={scaleUp}
-      className="group relative flex flex-col rounded-2xl overflow-hidden
-                 bg-zinc-900 border border-zinc-800/60
-                 hover:border-primary-700/50
-                 shadow-lg hover:shadow-primary-900/20
-                 transition-all duration-300 hover:-translate-y-1 card-hover"
+      className="group flex flex-col rounded-2xl overflow-hidden
+                 bg-white dark:bg-night-900
+                 border border-cream-300 dark:border-night-700
+                 hover:border-seafoam-400 dark:hover:border-seafoam-700
+                 shadow-sm hover:shadow-md hover:shadow-seafoam-100/40 dark:hover:shadow-night-950/40
+                 transition-all duration-300 hover:-translate-y-1"
     >
-      {/* Gradient top accent */}
-      <div className={`h-1.5 w-full bg-gradient-to-r ${project.color} opacity-80`} />
-
-      {/* Icon area */}
-      <div className={`h-36 flex items-center justify-center bg-gradient-to-br ${project.color} bg-opacity-10 relative`}>
-        <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-black via-transparent to-black" />
-        <span className="text-6xl relative z-10 drop-shadow-lg animate-float">
-          {project.icon}
+      {/* Card top — colored stripe + icon */}
+      <div className="flex items-center justify-between px-5 pt-5 pb-4">
+        <div className={`p-2.5 rounded-xl ${color} text-white shadow-sm`}>
+          <Icon className="h-4 w-4" />
+        </div>
+        <span className="font-mono text-[11px] text-ink-300 dark:text-ink-600 uppercase tracking-wider">
+          {project.category}
         </span>
-        {featured && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-900/60 border border-amber-700/50">
-            <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-            <span className="text-[10px] text-amber-300 font-medium">Featured</span>
-          </div>
-        )}
       </div>
 
-      <div className="flex flex-col flex-1 p-5">
-        {/* Category badge */}
-        <span className="text-xs font-mono text-secondary-400 mb-2">{project.category}</span>
-
-        {/* Title & Description */}
-        <h3 className="text-white font-bold text-base mb-2 line-clamp-1 group-hover:text-primary-300 transition-colors">
+      <div className="flex flex-col flex-1 px-5 pb-5">
+        {/* Title */}
+        <h3 className="text-ink-900 dark:text-cream-100 font-semibold text-[15px] mb-2 leading-snug
+                       group-hover:text-seafoam-700 dark:group-hover:text-seafoam-400 transition-colors">
           {project.title}
         </h3>
-        <p className="text-zinc-400 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+        <p className="text-ink-500 dark:text-ink-400 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
           {project.description}
         </p>
 
-        {/* Technologies */}
+        {/* Tech badges */}
         <div className="flex flex-wrap gap-1.5 mb-5">
           {project.technologies.slice(0, 4).map((tech) => (
             <span
               key={tech}
               className="px-2 py-0.5 rounded-md text-[11px] font-medium
-                         bg-zinc-800 border border-zinc-700/60 text-zinc-400"
+                         bg-cream-100 dark:bg-night-800 border border-cream-300 dark:border-night-700
+                         text-ink-500 dark:text-ink-400"
             >
               {tech}
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span className="px-2 py-0.5 rounded-md text-[11px] text-zinc-500">
-              +{project.technologies.length - 4}
-            </span>
+            <span className="text-[11px] text-ink-300 dark:text-ink-600 px-1">+{project.technologies.length - 4}</span>
           )}
         </div>
 
         {/* Links */}
-        <div className="flex items-center gap-4 border-t border-zinc-800/60 pt-4">
-          {project.githubUrl && (
+        <div className="flex items-center gap-4 border-t border-cream-200 dark:border-night-800 pt-4">
+          {project.githubUrl ? (
             <a
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${project.title} source code`}
-              className="flex items-center gap-1.5 text-sm text-zinc-400
-                         hover:text-primary-400 transition-colors duration-200"
+              className="flex items-center gap-1.5 text-xs text-ink-400 hover:text-seafoam-600 dark:hover:text-seafoam-400 transition-colors"
             >
-              <GithubIcon className="h-4 w-4" />
-              Code
+              <GithubIcon className="h-3.5 w-3.5" />
+              Source
             </a>
-          )}
-          {project.liveUrl && (
+          ) : null}
+          {project.liveUrl ? (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${project.title} live demo`}
-              className="flex items-center gap-1.5 text-sm text-zinc-400
-                         hover:text-secondary-400 transition-colors duration-200"
+              className="flex items-center gap-1.5 text-xs text-ink-400 hover:text-seafoam-600 dark:hover:text-seafoam-400 transition-colors"
             >
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink className="h-3.5 w-3.5" />
               Live Demo
             </a>
-          )}
+          ) : null}
           {!project.githubUrl && !project.liveUrl && (
-            <span className="text-xs text-zinc-600 italic">Coming soon</span>
+            <span className="text-[11px] text-ink-300 dark:text-ink-600 italic">Coming soon</span>
           )}
         </div>
       </div>

@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/SocialIcons";
 
 const socialLinks = [
-  { icon: GithubIcon,    href: SITE.github,                                  label: "GitHub",    color: "hover:text-zinc-100" },
-  { icon: LinkedinIcon,  href: "https://linkedin.com/in/osuald-iradukunda",  label: "LinkedIn",  color: "hover:text-blue-400" },
-  { icon: TwitterXIcon,  href: "https://twitter.com/osuald_dev",             label: "Twitter/X", color: "hover:text-sky-400" },
-  { icon: InstagramIcon, href: "https://instagram.com/osuald.dev",           label: "Instagram", color: "hover:text-pink-400" },
-  { icon: FacebookIcon,  href: "https://facebook.com/osuald.iradukunda",     label: "Facebook",  color: "hover:text-blue-500" },
-  { icon: WhatsAppIcon,  href: SITE.whatsapp,                                label: "WhatsApp",  color: "hover:text-green-400" },
+  { icon: GithubIcon,    href: SITE.github,                                 label: "GitHub" },
+  { icon: LinkedinIcon,  href: "https://linkedin.com/in/osuald-iradukunda", label: "LinkedIn" },
+  { icon: TwitterXIcon,  href: "https://twitter.com/_osuald16",             label: "Twitter/X" },
+  { icon: InstagramIcon, href: "https://www.instagram.com/__osuald/",       label: "Instagram" },
+  { icon: FacebookIcon,  href: "https://facebook.com/osuald.iradukunda",    label: "Facebook" },
+  { icon: WhatsAppIcon,  href: SITE.whatsapp,                               label: "WhatsApp" },
 ];
 
 const quickLinks = [
@@ -32,46 +32,48 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-surface-900 dark:bg-surface-950 border-t border-zinc-800/60 mt-auto">
+    <footer className="bg-cream-200 dark:bg-night-900 border-t border-cream-300 dark:border-night-800">
       <div className="container-custom py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
           {/* Brand */}
           <div className="lg:col-span-2 space-y-5">
-            <Link href="/" className="inline-flex items-center gap-2 group">
-              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-white font-bold shadow-lg">
+            <Link href="/" className="inline-flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-seafoam-500 flex items-center justify-center text-white font-mono font-bold text-sm">
                 O
               </div>
-              <span className="text-xl font-bold text-white">suald Iradukunda</span>
+              <span className="font-mono text-base font-semibold text-ink-900 dark:text-cream-100">
+                suald Iradukunda
+              </span>
             </Link>
-            <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">
+            <p className="text-ink-600 dark:text-ink-400 text-sm leading-relaxed max-w-xs">
               Software Engineer building impactful mobile and web solutions with Flutter &
-              Python. Based in Kigali, Rwanda, open to opportunities worldwide.
+              Python. Based in Kigali, Rwanda — open to opportunities worldwide.
             </p>
 
-            {/* Contact Details */}
-            <ul className="space-y-2.5 text-sm">
-              <li className="flex items-center gap-2.5 text-zinc-400">
-                <Phone className="h-4 w-4 text-primary-500 shrink-0" />
-                <a href={`tel:${SITE.phone}`} className="hover:text-primary-400 transition-colors">
-                  {SITE.phone}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5 text-zinc-400">
-                <Mail className="h-4 w-4 text-primary-500 shrink-0" />
-                <a href={`mailto:${SITE.email}`} className="hover:text-primary-400 transition-colors">
-                  {SITE.email}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5 text-zinc-400">
-                <MapPin className="h-4 w-4 text-primary-500 shrink-0" />
-                <span>{SITE.location}</span>
-              </li>
+            <ul className="space-y-2 text-sm">
+              {[
+                { icon: Phone, label: SITE.phone,    href: `tel:${SITE.phone}` },
+                { icon: Mail,  label: SITE.email,    href: `mailto:${SITE.email}` },
+                { icon: MapPin,label: SITE.location, href: null },
+              ].map(({ icon: Icon, label, href }) => (
+                <li key={label} className="flex items-center gap-2.5 text-ink-600 dark:text-ink-400">
+                  <Icon className="h-4 w-4 text-seafoam-500 shrink-0" />
+                  {href ? (
+                    <a href={href} className="hover:text-seafoam-600 dark:hover:text-seafoam-400 transition-colors">
+                      {label}
+                    </a>
+                  ) : (
+                    <span>{label}</span>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-400 mb-5">
               Quick Links
             </h3>
             <ul className="space-y-2.5">
@@ -79,7 +81,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-zinc-400 hover:text-primary-400 text-sm transition-colors duration-200"
+                    className="text-sm text-ink-600 dark:text-ink-400 hover:text-seafoam-600 dark:hover:text-seafoam-400 transition-colors"
                   >
                     {link.label}
                   </a>
@@ -88,20 +90,23 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social + CTA */}
+          {/* Connect */}
           <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-400 mb-5">
               Connect
             </h3>
-            <div className="flex flex-wrap gap-2.5 mb-6">
-              {socialLinks.map(({ icon: Icon, href, label, color }) => (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className={`p-2.5 rounded-lg bg-zinc-800 text-zinc-400 ${color} transition-all duration-200 hover:bg-zinc-700`}
+                  className="p-2.5 rounded-lg bg-cream-100 dark:bg-night-800 text-ink-500 dark:text-ink-400
+                             border border-cream-300 dark:border-night-700
+                             hover:border-seafoam-400 hover:text-seafoam-600 dark:hover:text-seafoam-400
+                             transition-all duration-200"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -111,9 +116,9 @@ export default function Footer() {
               href={SITE.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm py-2.5 px-5 rounded-lg
-                         bg-gradient-to-r from-primary-600 to-secondary-600
-                         text-white font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 text-sm py-2.5 px-4 rounded-lg
+                         bg-seafoam-500 hover:bg-seafoam-600 text-white font-semibold
+                         transition-colors duration-200"
             >
               <MessageCircle className="h-4 w-4" />
               Chat on WhatsApp
@@ -121,14 +126,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-zinc-800/60 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-zinc-500 text-sm">
-            © {year} Osuald Iradukunda. All rights reserved.
-          </p>
-          <p className="text-zinc-600 text-sm">
-            Built with Next.js · TypeScript · Tailwind CSS · Framer Motion
-          </p>
+        <div className="divider-seafoam mt-12 mb-8" />
+
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-ink-400 text-sm">© {year} Osuald Iradukunda. All rights reserved.</p>
+          <p className="text-ink-400 text-xs font-mono">Next.js · TypeScript · Tailwind CSS v4</p>
         </div>
       </div>
     </footer>

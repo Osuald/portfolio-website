@@ -1,56 +1,52 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Code2, Smartphone, Brain, Heart } from "lucide-react";
-import {
-  fadeUp,
-  fadeLeft,
-  fadeRight,
-  staggerContainer,
-  viewportOptions,
-} from "@/lib/animations";
+import { Smartphone, Code2, Brain, Heart } from "lucide-react";
+import { fadeUp, fadeLeft, fadeRight, staggerContainer, viewportOptions } from "@/lib/animations";
 import { techStack } from "@/data/skills";
 
 const pillars = [
   {
     icon: Smartphone,
     title: "Mobile First",
-    desc: "Building cross-platform Flutter apps that feel native on every device.",
-    color: "text-primary-400",
-    bg: "bg-primary-900/30 border-primary-800/40",
+    desc: "Cross-platform Flutter apps that feel native on every device.",
+    color: "text-seafoam-600 dark:text-seafoam-400",
+    bg: "bg-seafoam-50 dark:bg-seafoam-900/20 border-seafoam-200 dark:border-seafoam-800/40",
   },
   {
     icon: Brain,
     title: "ML / Python",
-    desc: "Turning data into decisions — from predictive models to automation pipelines.",
-    color: "text-secondary-400",
-    bg: "bg-secondary-900/30 border-secondary-800/40",
+    desc: "Turning data into decisions — predictive models to automation pipelines.",
+    color: "text-indigo-500 dark:text-indigo-400",
+    bg: "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800/40",
   },
   {
     icon: Code2,
     title: "Clean Code",
-    desc: "Writing readable, maintainable code following SOLID principles and best practices.",
-    color: "text-emerald-400",
-    bg: "bg-emerald-900/20 border-emerald-800/30",
+    desc: "Readable, maintainable code following SOLID principles.",
+    color: "text-emerald-600 dark:text-emerald-400",
+    bg: "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/40",
   },
   {
     icon: Heart,
     title: "User-Centric",
-    desc: "Every line of code serves a real user — performance, accessibility, and UX matter.",
-    color: "text-rose-400",
-    bg: "bg-rose-900/20 border-rose-800/30",
+    desc: "Every feature serves a real user — performance and UX matter.",
+    color: "text-rose-500 dark:text-rose-400",
+    bg: "bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/40",
   },
 ];
 
 export default function About() {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <section
       id="about"
-      className="section-padding bg-zinc-950 dark:bg-surface-950 relative overflow-hidden"
+      className="section-padding bg-white dark:bg-night-900 relative overflow-hidden"
     >
-      {/* Decorative top border */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-600/50 to-transparent" />
+      <div className="absolute top-0 inset-x-0 divider-seafoam" />
 
       <div className="container-custom">
         {/* Heading */}
@@ -61,16 +57,14 @@ export default function About() {
           viewport={viewportOptions}
           className="text-center mb-16"
         >
-          <p className="text-sm font-mono text-primary-400 uppercase tracking-[0.2em] mb-3">
-            About Me
-          </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white">
-            Turning Ideas into <span className="text-gradient">Reality</span>
+          <p className="label-mono mb-3">About Me</p>
+          <h2 className="font-mono text-3xl md:text-4xl font-bold text-ink-900 dark:text-cream-100">
+            Turning ideas into <span className="text-gradient">reality</span>
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Left — Avatar placeholder + decorative ring */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center mb-16">
+          {/* Left — Photo */}
           <motion.div
             variants={fadeLeft}
             initial="hidden"
@@ -79,38 +73,35 @@ export default function About() {
             className="flex justify-center"
           >
             <div className="relative">
-              {/* Outer spinning gradient ring */}
-              <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-primary-600 via-secondary-500 to-primary-800 opacity-20 blur-xl animate-float" />
-
-              {/* 1. Updated Container: added 'relative' and 'z-0' */}
-              <div
-                className="relative h-64 w-64 md:h-80 md:w-80 rounded-3xl overflow-hidden border-2 border-zinc-800/80
-                    bg-gradient-to-br from-zinc-900 to-zinc-800 flex flex-col items-center justify-center shadow-2xl"
-              >
-                {/* 2. Your Image with the fit fix */}
-                <Image
-                  src="/images/avatar.jpg"
-                  alt="Osuald Iradukunda"
-                  fill
-                  className="object-cover object-top z-10" // added object-top and z-index
-                  priority
-                />
-
-                {/* 3. Fallback: This only shows if the image fails to load or is transparent */}
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <div className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-4xl font-extrabold text-white">
-                    OI
+              <div className="relative h-64 w-64 md:h-80 md:w-80 rounded-3xl overflow-hidden
+                              border-2 border-cream-300 dark:border-night-700
+                              bg-cream-200 dark:bg-night-800 shadow-xl shadow-seafoam-100/30 dark:shadow-night-950/50">
+                {imgError ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                    <div className="h-20 w-20 rounded-full bg-seafoam-500 flex items-center justify-center
+                                    text-3xl font-bold text-white font-mono">
+                      OI
+                    </div>
+                    <p className="text-ink-600 dark:text-ink-400 text-sm">Osuald Iradukunda</p>
                   </div>
-                  <p className="text-zinc-400 text-sm font-medium">
-                    Osuald Iradukunda
-                  </p>
-                  <p className="text-zinc-600 text-xs">Software Engineer</p>
-                </div>
+                ) : (
+                  <Image
+                    src="/images/avatar.jpg"
+                    alt="Osuald Iradukunda"
+                    fill
+                    className="object-cover object-top"
+                    priority
+                    onError={() => setImgError(true)}
+                  />
+                )}
               </div>
 
-              {/* Status badge - added z-20 to ensure it stays on top of the image */}
-              <div className="absolute -bottom-4 -right-4 px-4 py-2 rounded-xl bg-emerald-900/60 border border-emerald-700/50 text-emerald-400 text-sm font-semibold flex items-center gap-2 shadow-lg z-20">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              {/* Status badge */}
+              <div className="absolute -bottom-4 -right-4 px-3.5 py-2 rounded-xl
+                              bg-white dark:bg-night-800 border border-seafoam-200 dark:border-seafoam-800
+                              shadow-lg text-sm font-semibold text-emerald-700 dark:text-emerald-400
+                              flex items-center gap-2 z-10">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 Open to Work
               </div>
             </div>
@@ -124,63 +115,57 @@ export default function About() {
             viewport={viewportOptions}
             className="space-y-6"
           >
-            <div className="space-y-4 text-zinc-400 leading-relaxed text-[15px]">
+            <div className="space-y-4 text-ink-800 dark:text-ink-400 leading-relaxed text-[15px]">
               <p>
-                Hey! I'm{" "}
-                <span className="text-white font-semibold">
-                  Osuald Iradukunda
-                </span>
-                , a passionate Computer Engineering student at the{" "}
-                <span className="text-primary-400 font-medium">
-                  University of Rwanda
-                </span>{" "}
-                and a self-driven software engineer with a love for building
-                things that matter.
+                Hi! I'm{" "}
+                <span className="text-ink-900 dark:text-cream-100 font-semibold">Osuald Iradukunda</span>,
+                a Computer Engineering student (GPA 4.61/5) at the{" "}
+                <span className="text-seafoam-700 dark:text-seafoam-400 font-semibold">University of Rwanda</span>{" "}
+                with hands-on experience in web, mobile, and embedded systems development.
               </p>
               <p>
-                My stack centers on{" "}
-                <span className="text-white font-medium">Flutter & Dart</span>{" "}
-                for mobile apps and{" "}
-                <span className="text-white font-medium">Python</span> for
-                backends, data pipelines, and machine-learning solutions. I
-                believe great software starts with understanding the{" "}
-                <em>problem</em>, not the technology.
+                I build across the full stack —{" "}
+                <span className="text-ink-900 dark:text-cream-200 font-semibold">Flutter & Dart</span>{" "}
+                for cross-platform mobile,{" "}
+                <span className="text-ink-900 dark:text-cream-200 font-semibold">Java Spring Boot</span>{" "}
+                and{" "}
+                <span className="text-ink-900 dark:text-cream-200 font-semibold">Node.js / Python</span>{" "}
+                for backends, and{" "}
+                <span className="text-ink-900 dark:text-cream-200 font-semibold">Next.js</span>{" "}
+                for web frontends. I have professional experience delivering production systems and am actively looking for new opportunities.
               </p>
               <p>
-                When I'm not coding, you'll find me contributing to open-source
-                projects, exploring new frameworks, or mentoring peers at
-                university. I'm on a mission to build tools that genuinely
-                improve lives across Africa and beyond.
+                Passionate about building scalable, efficient software that solves real problems —
+                from public-sector digital services to IoT systems and data-driven tools.
+                My goal is to contribute to innovative technology solutions across Africa and beyond.
               </p>
             </div>
 
-            {/* Tech stack tags */}
+            {/* Tech tags */}
             <div>
-              <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-3">
-                Tech I work with
-              </p>
+              <p className="label-mono mb-3">Tech I work with</p>
               <div className="flex flex-wrap gap-2">
                 {techStack.map((tech) => (
                   <span
                     key={tech.name}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm
-                               bg-zinc-800/70 border border-zinc-700/50 text-zinc-300
-                               hover:border-primary-600/50 hover:text-primary-300 transition-colors duration-200"
+                    className="px-3 py-1.5 rounded-lg text-sm font-medium
+                               bg-cream-100 dark:bg-night-800 border border-cream-300 dark:border-night-700
+                               text-ink-700 dark:text-cream-200
+                               hover:border-seafoam-400 hover:text-seafoam-700 dark:hover:text-seafoam-400
+                               transition-colors duration-200 cursor-default"
                   >
-                    <span>{tech.icon}</span>
                     {tech.name}
                   </span>
                 ))}
               </div>
             </div>
 
-            {/* CV download */}
             <a
               href="/resume.pdf"
               download
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl font-semibold text-sm
-                         border border-primary-700/60 text-primary-300 bg-primary-900/20
-                         hover:bg-primary-900/40 hover:border-primary-600
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold
+                         border border-seafoam-400 text-seafoam-700 dark:text-seafoam-400
+                         hover:bg-seafoam-50 dark:hover:bg-seafoam-900/20
                          active:scale-[0.98] transition-all duration-200"
             >
               Download CV
@@ -189,13 +174,13 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* Pillars grid */}
+        {/* Pillars */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {pillars.map((p) => (
             <motion.div
@@ -203,9 +188,9 @@ export default function About() {
               variants={fadeUp}
               className={`p-5 rounded-2xl border ${p.bg} card-hover`}
             >
-              <p.icon className={`h-6 w-6 mb-3 ${p.color}`} />
-              <h3 className="text-white font-bold mb-1.5">{p.title}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed">{p.desc}</p>
+              <p.icon className={`h-5 w-5 mb-3 ${p.color}`} />
+              <h3 className="text-ink-900 dark:text-cream-100 font-semibold text-sm mb-1.5">{p.title}</h3>
+              <p className="text-ink-700 dark:text-ink-400 text-sm leading-relaxed">{p.desc}</p>
             </motion.div>
           ))}
         </motion.div>

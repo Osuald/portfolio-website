@@ -18,7 +18,7 @@ export default function ScrollProgress() {
   return (
     <motion.div
       style={{ scaleX, transformOrigin: "left" }}
-      className="fixed top-0 left-0 right-0 h-[3px] z-[9999] bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-400"
+      className="fixed top-0 left-0 right-0 h-[2px] z-[9999] bg-gradient-to-r from-seafoam-600 via-seafoam-400 to-seafoam-700"
       aria-hidden="true"
     />
   );

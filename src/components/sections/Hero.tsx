@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown, Sparkles, MapPin } from "lucide-react";
 import { ROLES, SITE } from "@/lib/constants";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import {
@@ -13,27 +13,24 @@ import {
 } from "@/components/ui/SocialIcons";
 
 const socialLinks = [
-  { icon: GithubIcon,   href: SITE.github,                                 label: "GitHub" },
+  { icon: GithubIcon,   href: SITE.github,   label: "GitHub" },
   { icon: LinkedinIcon, href: "https://linkedin.com/in/osuald-iradukunda", label: "LinkedIn" },
-  { icon: TwitterXIcon, href: "https://twitter.com/osuald_dev",            label: "Twitter/X" },
-  { icon: WhatsAppIcon, href: SITE.whatsapp,                               label: "WhatsApp" },
+  { icon: TwitterXIcon, href: "https://twitter.com/_osuald16",             label: "Twitter/X" },
+  { icon: WhatsAppIcon, href: SITE.whatsapp, label: "WhatsApp" },
 ];
 
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [displayed,   setDisplayed]  = useState("");
+  const [isDeleting,  setIsDeleting] = useState(false);
 
   useEffect(() => {
     const current = ROLES[roleIndex];
-    const speed = isDeleting ? 50 : 80;
-
-    const timer = setTimeout(() => {
+    const speed   = isDeleting ? 45 : 75;
+    const timer   = setTimeout(() => {
       if (!isDeleting) {
         setDisplayed(current.slice(0, displayed.length + 1));
-        if (displayed.length + 1 === current.length) {
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
+        if (displayed.length + 1 === current.length) setTimeout(() => setIsDeleting(true), 2200);
       } else {
         setDisplayed(current.slice(0, displayed.length - 1));
         if (displayed.length === 0) {
@@ -42,205 +39,240 @@ export default function Hero() {
         }
       }
     }, speed);
-
     return () => clearTimeout(timer);
   }, [displayed, isDeleting, roleIndex]);
 
-  const scrollToSection = (id: string) => {
+  const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
-    >
-      {/* Animated mesh gradient background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-zinc-950 dark:bg-surface-950" />
-        <div className="absolute inset-0 mesh-gradient opacity-60" />
-        <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-primary-600/20 filter blur-[100px] animate-blob" />
-        <div className="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-secondary-600/15 filter blur-[100px] animate-blob animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3  w-80 h-80 rounded-full bg-primary-800/15 filter blur-[120px] animate-blob animation-delay-4000" />
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
-        />
-      </div>
+    <section id="home" className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-cream-100 dark:bg-night-950">
 
-      {/* Floating Social Links – left side (desktop) */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="hidden lg:flex fixed left-6 bottom-0 z-40 flex-col items-center gap-5 pb-8"
-      >
-        {socialLinks.map(({ icon: Icon, href, label }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            className="p-2 text-zinc-500 hover:text-primary-400 transition-all duration-200 hover:-translate-y-0.5"
-          >
-            <Icon className="h-5 w-5" />
-          </a>
-        ))}
-        <div className="w-px h-24 bg-gradient-to-b from-zinc-600 to-transparent" />
-      </motion.div>
+      {/* Subtle warm paper texture */}
+      <div className="absolute inset-0 paper-texture opacity-30 dark:opacity-0 pointer-events-none" />
 
-      {/* Main Content */}
+      {/* Very faint seafoam glow — top right (dark mode only) */}
+      <div className="absolute top-0 right-0 w-[500px] h-[400px] rounded-full
+                      dark:bg-seafoam-900/10 opacity-0 dark:opacity-30 blur-[100px] pointer-events-none" />
+
+      {/* Main content */}
       <div className="container-custom w-full">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="max-w-4xl mx-auto text-center"
-        >
-          {/* Badge */}
-          <motion.div variants={fadeUp} className="mb-6 inline-flex">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium
-                             bg-primary-900/40 border border-primary-700/50 text-primary-300">
-              <Sparkles className="h-3.5 w-3.5" />
-              Available for hire · Kigali, Rwanda
-            </span>
-          </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-4rem)]">
 
-          {/* Name */}
-          <motion.h1
-            variants={fadeUp}
-            className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-4 text-white leading-[1.05]"
-          >
-            Osuald{" "}
-            <span className="text-gradient">Iradukunda</span>
-          </motion.h1>
-
-          {/* Typewriter role */}
+          {/* Left — Text */}
           <motion.div
-            variants={fadeUp}
-            className="h-12 flex items-center justify-center mb-6"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="py-16 lg:py-0"
           >
-            <p className="text-xl md:text-2xl font-mono font-semibold text-zinc-300">
-              <span className="text-primary-400">&gt;</span>{" "}
-              {displayed}
-              <span className="inline-block w-0.5 h-6 bg-primary-400 ml-0.5 animate-pulse align-middle" />
-            </p>
-          </motion.div>
+            {/* Location badge */}
+            <motion.div variants={fadeUp} className="mb-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium
+                               bg-seafoam-50 dark:bg-seafoam-900/30 text-seafoam-700 dark:text-seafoam-400
+                               border border-seafoam-200 dark:border-seafoam-800/50">
+                <MapPin className="h-3 w-3" />
+                Kigali, Rwanda · Open to work
+              </span>
+            </motion.div>
 
-          {/* Bio */}
-          <motion.p
-            variants={fadeUp}
-            className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            I craft high-performance{" "}
-            <span className="text-zinc-200 font-medium">Flutter mobile apps</span> and{" "}
-            <span className="text-zinc-200 font-medium">Python-powered backends</span> that solve real-world
-            problems — from ML models to scalable REST APIs. Computer Engineering student at{" "}
-            <span className="text-zinc-200 font-medium">University of Rwanda</span>.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
-          >
-            <a
-              href="mailto:osualdiradukunda16@gmail.com"
-              className="group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden
-                         bg-gradient-to-r from-primary-600 to-secondary-600
-                         hover:opacity-90 active:scale-[0.98]
-                         shadow-lg shadow-primary-900/30 hover:shadow-primary-700/40
-                         transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-zinc-950"
+            {/* Name — medium, font-mono */}
+            <motion.h1
+              variants={fadeUp}
+              className="font-mono text-3xl md:text-4xl lg:text-[2.6rem] font-bold text-ink-900 dark:text-cream-100 leading-tight mb-3"
             >
-              <Sparkles className="h-4 w-4" />
-              Hire Me
-            </a>
+              Osuald Iradukunda
+            </motion.h1>
 
-            <button
-              onClick={() => scrollToSection("projects")}
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold
-                         border border-zinc-700 text-zinc-300 bg-zinc-900/50
-                         hover:border-primary-600/60 hover:text-primary-300 hover:bg-primary-900/20
-                         active:scale-[0.98] transition-all duration-200
-                         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-zinc-950"
+            {/* Typewriter role */}
+            <motion.div variants={fadeUp} className="h-8 flex items-center mb-5">
+              <p className="font-mono text-base text-seafoam-600 dark:text-seafoam-400">
+                {displayed}
+                <span className="inline-block w-0.5 h-4 bg-seafoam-500 ml-0.5 align-middle animate-pulse" />
+              </p>
+            </motion.div>
+
+            {/* Bio */}
+            <motion.p
+              variants={fadeUp}
+              className="text-ink-800 dark:text-ink-400 leading-relaxed mb-8 max-w-md text-[15px]"
             >
-              View Projects
-            </button>
+              Computer Engineering student (GPA 4.61/5) building across{" "}
+              <span className="text-ink-900 dark:text-cream-200 font-semibold">Flutter mobile</span>,{" "}
+              <span className="text-ink-900 dark:text-cream-200 font-semibold">Java Spring Boot</span>, and{" "}
+              <span className="text-ink-900 dark:text-cream-200 font-semibold">Node.js / Python</span>{" "}
+              backends — open to new opportunities.
+            </motion.p>
 
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold
-                         border border-zinc-700 text-zinc-300 bg-zinc-900/50
-                         hover:border-secondary-600/60 hover:text-secondary-300 hover:bg-secondary-900/20
-                         active:scale-[0.98] transition-all duration-200
-                         focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 focus:ring-offset-zinc-950"
-            >
-              Contact Me
-            </button>
-          </motion.div>
-
-          {/* Mobile Social Links */}
-          <motion.div
-            variants={fadeUp}
-            className="lg:hidden flex items-center justify-center gap-4 mb-14"
-          >
-            {socialLinks.map(({ icon: Icon, href, label }) => (
+            {/* CTAs */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-8">
               <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="p-2.5 rounded-lg bg-zinc-800/60 border border-zinc-700/50
-                           text-zinc-400 hover:text-primary-400 hover:border-primary-700/50
-                           transition-all duration-200"
+                href="mailto:osualdiradukunda16@gmail.com"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm
+                           bg-seafoam-500 hover:bg-seafoam-600 text-white
+                           shadow-md shadow-seafoam-200 dark:shadow-seafoam-900/30
+                           active:scale-[0.98] transition-all duration-200
+                           focus:outline-none focus:ring-2 focus:ring-seafoam-500 focus:ring-offset-2"
               >
-                <Icon className="h-5 w-5" />
+                <Sparkles className="h-4 w-4" />
+                Hire Me
               </a>
-            ))}
-          </motion.div>
-
-          {/* Stats Row */}
-          <motion.div
-            variants={fadeUp}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto mb-20"
-          >
-            {[
-              { value: "10+", label: "Projects Built" },
-              { value: "2+",  label: "Years Coding" },
-              { value: "3",   label: "Languages" },
-              { value: "∞",   label: "Curiosity" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center py-4 px-2 rounded-xl
-                           bg-zinc-900/50 border border-zinc-800/60"
+              <button
+                onClick={() => scrollTo("projects")}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm
+                           border border-cream-300 dark:border-night-700 text-ink-700 dark:text-cream-200
+                           bg-white dark:bg-night-800
+                           hover:border-seafoam-400 dark:hover:border-seafoam-700 hover:text-seafoam-700 dark:hover:text-seafoam-400
+                           active:scale-[0.98] transition-all duration-200"
               >
-                <span className="text-2xl font-bold text-gradient">{stat.value}</span>
-                <span className="text-xs text-zinc-500 mt-1">{stat.label}</span>
-              </div>
-            ))}
-          </motion.div>
-        </motion.div>
+                View Projects
+              </button>
+              <button
+                onClick={() => scrollTo("contact")}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm
+                           border border-cream-300 dark:border-night-700 text-ink-700 dark:text-cream-200
+                           bg-white dark:bg-night-800
+                           hover:border-seafoam-400 dark:hover:border-seafoam-700 hover:text-seafoam-700 dark:hover:text-seafoam-400
+                           active:scale-[0.98] transition-all duration-200"
+              >
+                Contact Me
+              </button>
+            </motion.div>
 
-        {/* Scroll Indicator */}
+            {/* Mobile social links */}
+            <motion.div variants={fadeUp} className="lg:hidden flex items-center gap-3 mb-10">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="p-2 rounded-lg bg-cream-200 dark:bg-night-800 border border-cream-300 dark:border-night-700
+                             text-ink-500 dark:text-ink-400
+                             hover:border-seafoam-400 hover:text-seafoam-600 dark:hover:text-seafoam-400
+                             transition-all duration-200"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-6">
+              {[
+                { value: "4.61", label: "GPA / 5.0" },
+                { value: "3+",   label: "Projects" },
+                { value: "4",    label: "Certificates" },
+              ].map((s) => (
+                <div key={s.label} className="text-center">
+                  <p className="font-mono text-xl font-bold text-seafoam-600 dark:text-seafoam-400">{s.value}</p>
+                  <p className="text-xs text-ink-600 dark:text-ink-400 mt-0.5">{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right — Code card (desktop only) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+            className="hidden lg:flex justify-center items-center"
+          >
+            <div className="relative">
+              {/* Card */}
+              <div className="rounded-2xl overflow-hidden shadow-2xl shadow-seafoam-100/50 dark:shadow-night-950/50
+                              border border-cream-300 dark:border-night-700 w-[340px]">
+                {/* Window chrome */}
+                <div className="flex items-center gap-2 px-4 py-3 bg-cream-200 dark:bg-night-800 border-b border-cream-300 dark:border-night-700">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                  <span className="ml-2 font-mono text-xs text-ink-400">developer.ts</span>
+                </div>
+
+                {/* Code body */}
+                <div className="bg-white dark:bg-night-900 px-5 py-6 font-mono text-[13px] leading-loose">
+                  <p className="text-ink-500 dark:text-night-700">{"// My profile"}</p>
+                  <p>
+                    <span className="text-seafoam-600 dark:text-seafoam-400">const </span>
+                    <span className="text-ink-800 dark:text-cream-200">developer</span>
+                    <span className="text-ink-600"> = {"{"}</span>
+                  </p>
+                  <div className="pl-4 space-y-0.5">
+                    <p>
+                      <span className="text-ink-700 dark:text-ink-400">name</span>
+                      <span className="text-ink-600">: </span>
+                      <span className="text-seafoam-700 dark:text-seafoam-300">"Osuald"</span>
+                      <span className="text-ink-600">,</span>
+                    </p>
+                    <p>
+                      <span className="text-ink-700 dark:text-ink-400">role</span>
+                      <span className="text-ink-600">: </span>
+                      <span className="text-seafoam-700 dark:text-seafoam-300">"Software Engineer"</span>
+                      <span className="text-ink-600">,</span>
+                    </p>
+                    <p>
+                      <span className="text-ink-700 dark:text-ink-400">stack</span>
+                      <span className="text-ink-600">: [</span>
+                    </p>
+                    <div className="pl-4">
+                      {["Flutter", "Python", "Next.js"].map((s) => (
+                        <p key={s}>
+                          <span className="text-seafoam-700 dark:text-seafoam-300">"{s}"</span>
+                          <span className="text-ink-600">,</span>
+                        </p>
+                      ))}
+                    </div>
+                    <p><span className="text-ink-600">],</span></p>
+                    <p>
+                      <span className="text-ink-700 dark:text-ink-400">location</span>
+                      <span className="text-ink-600">: </span>
+                      <span className="text-seafoam-700 dark:text-seafoam-300">"Kigali, Rwanda"</span>
+                      <span className="text-ink-600">,</span>
+                    </p>
+                    <p>
+                      <span className="text-ink-700 dark:text-ink-400">available</span>
+                      <span className="text-ink-600">: </span>
+                      <span className="text-emerald-600 dark:text-emerald-400">true</span>
+                    </p>
+                  </div>
+                  <p><span className="text-ink-600">{"}"}</span></p>
+
+                  {/* Blinking cursor */}
+                  <p className="mt-2">
+                    <span className="text-seafoam-500">&#x276F; </span>
+                    <span className="inline-block w-2 h-4 bg-seafoam-500 align-middle animate-pulse" />
+                  </p>
+                </div>
+              </div>
+
+              {/* Floating "Open to Work" tag */}
+              <div className="absolute -bottom-4 -left-6 px-3.5 py-2 rounded-xl
+                              bg-white dark:bg-night-800 border border-seafoam-200 dark:border-seafoam-800
+                              shadow-lg shadow-seafoam-100/30
+                              flex items-center gap-2 text-sm font-medium text-ink-700 dark:text-cream-200">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                Open to Work
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          onClick={() => scrollToSection("about")}
-          aria-label="Scroll to About section"
-          className="mx-auto flex flex-col items-center gap-2 text-zinc-500 hover:text-primary-400
-                     transition-colors duration-200 cursor-pointer group"
+          transition={{ delay: 1.6 }}
+          onClick={() => scrollTo("about")}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5
+                     text-ink-300 dark:text-night-700 hover:text-seafoam-500 dark:hover:text-seafoam-500
+                     transition-colors duration-200 cursor-pointer"
+          aria-label="Scroll down"
         >
-          <span className="text-xs font-medium tracking-widest uppercase">Scroll</span>
-          <ArrowDown className="h-5 w-5 animate-bounce group-hover:text-primary-400" />
+          <span className="font-mono text-[10px] uppercase tracking-widest">Scroll</span>
+          <ArrowDown className="h-4 w-4 animate-bounce" />
         </motion.button>
       </div>
     </section>

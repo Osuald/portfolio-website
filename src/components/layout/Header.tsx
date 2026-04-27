@@ -16,43 +16,35 @@ import {
 const socialLinks = [
   { icon: GithubIcon,   href: SITE.github,   label: "GitHub" },
   { icon: LinkedinIcon, href: "https://linkedin.com/in/osuald-iradukunda", label: "LinkedIn" },
-  { icon: TwitterXIcon, href: "https://twitter.com/osuald_dev",            label: "Twitter/X" },
+  { icon: TwitterXIcon, href: "https://twitter.com/_osuald16",             label: "Twitter/X" },
   { icon: WhatsAppIcon, href: SITE.whatsapp, label: "WhatsApp" },
 ];
 
 export default function Header() {
-  const [isOpen,    setIsOpen]    = useState(false);
-  const [scrolled,  setScrolled]  = useState(false);
-  const [activeSection, setActive] = useState("/");
+  const [isOpen,  setIsOpen]  = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active,  setActive]  = useState("/");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const sections = ["about", "projects", "skills", "experience", "contact"];
+    const ids = ["about", "projects", "skills", "experience", "contact"];
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
-        });
-      },
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(`#${e.target.id}`); }),
       { rootMargin: "-40% 0px -55% 0px" }
     );
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    ids.forEach((id) => { const el = document.getElementById(id); if (el) observer.observe(el); });
     return () => observer.disconnect();
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const jump = (href: string) => {
     setIsOpen(false);
     if (href.startsWith("#")) {
-      const el = document.getElementById(href.slice(1));
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -60,45 +52,49 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
         ${scrolled
-          ? "bg-white/80 dark:bg-surface-950/80 backdrop-blur-xl border-b border-zinc-200/50 dark:border-zinc-800/50 shadow-sm"
+          ? "bg-cream-100/90 dark:bg-night-950/90 backdrop-blur-md border-b border-cream-300/70 dark:border-night-800/60 shadow-sm shadow-seafoam-100/20"
           : "bg-transparent"
         }`}
     >
       <div className="container-custom">
         <div className="flex h-16 items-center justify-between">
+
           {/* Logo */}
           <Link
             href="/"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center  group"
+            className="flex items-center gap-2 group"
           >
-            <div className="h-8 w-6 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary-900/30 group-hover:shadow-primary-600/40 transition-shadow">
+            <div className="h-7 w-7 rounded-md bg-seafoam-500 flex items-center justify-center
+                            text-white font-bold text-sm font-mono
+                            group-hover:bg-seafoam-600 transition-colors">
               O
             </div>
-            <span className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+            <span className="font-mono text-base font-semibold text-ink-900 dark:text-cream-100
+                             group-hover:text-seafoam-600 dark:group-hover:text-seafoam-400 transition-colors">
               suald
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-0.5" aria-label="Main navigation">
             {NAV_ITEMS.map((item) => {
-              const isActive = item.href === "/" ? activeSection === "/" : activeSection === item.href;
+              const isActive = item.href === "/" ? active === "/" : active === item.href;
               return (
                 <button
                   key={item.href}
-                  onClick={() => handleNavClick(item.href)}
+                  onClick={() => jump(item.href)}
                   className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
                     ${isActive
-                      ? "text-primary-600 dark:text-primary-400"
-                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/60"
+                      ? "text-seafoam-700 dark:text-seafoam-400"
+                      : "text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-cream-100 hover:bg-cream-200/60 dark:hover:bg-night-800/60"
                     }`}
                 >
                   {item.label}
                   {isActive && (
-                    <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute inset-x-2 bottom-0.5 h-0.5 rounded-full bg-primary-500"
+                    <motion.span
+                      layoutId="nav-dot"
+                      className="absolute bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-seafoam-500"
                     />
                   )}
                 </button>
@@ -106,9 +102,9 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-1">
+          {/* Right */}
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-0.5">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
@@ -116,9 +112,9 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="p-2 rounded-lg text-zinc-500 dark:text-zinc-400
-                             hover:text-primary-600 dark:hover:text-primary-400
-                             hover:bg-zinc-100 dark:hover:bg-zinc-800/60
+                  className="p-2 rounded-lg text-ink-400 dark:text-ink-400
+                             hover:text-seafoam-600 dark:hover:text-seafoam-400
+                             hover:bg-seafoam-50 dark:hover:bg-night-800/60
                              transition-all duration-200"
                 >
                   <Icon className="h-4 w-4" />
@@ -128,13 +124,11 @@ export default function Header() {
 
             <ThemeToggle />
 
-            {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 rounded-lg text-zinc-700 dark:text-zinc-300
-                         hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              className="md:hidden p-2 rounded-lg text-ink-600 dark:text-ink-400
+                         hover:bg-cream-200 dark:hover:bg-night-800 transition-colors"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isOpen}
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -142,7 +136,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation Overlay */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -150,39 +144,33 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              className="fixed inset-0 bg-ink-900/20 dark:bg-black/40 z-40 md:hidden backdrop-blur-sm"
               onClick={() => setIsOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
               className="fixed top-0 right-0 bottom-0 w-72 z-50 md:hidden
-                         bg-white dark:bg-surface-900
-                         border-l border-zinc-200 dark:border-zinc-800
-                         flex flex-col"
+                         bg-cream-100 dark:bg-night-900 border-l border-cream-300 dark:border-night-700"
             >
-              <div className="flex items-center justify-between p-5 border-b border-zinc-200 dark:border-zinc-800">
-                <span className="font-bold text-lg text-gradient">Osuald</span>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close menu"
-                  className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-                >
-                  <X className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+              <div className="flex items-center justify-between px-5 py-4 border-b border-cream-300 dark:border-night-800">
+                <span className="font-mono font-semibold text-ink-900 dark:text-cream-100">Navigation</span>
+                <button onClick={() => setIsOpen(false)} className="p-1.5 rounded-lg hover:bg-cream-200 dark:hover:bg-night-800 transition-colors">
+                  <X className="h-5 w-5 text-ink-600 dark:text-ink-400" />
                 </button>
               </div>
 
-              <nav className="flex-1 p-5 space-y-1" aria-label="Mobile navigation">
+              <nav className="px-4 py-5 space-y-1">
                 {NAV_ITEMS.map((item) => (
                   <button
                     key={item.href}
-                    onClick={() => handleNavClick(item.href)}
-                    className="w-full text-left px-4 py-3 rounded-xl text-base font-medium
-                               text-zinc-700 dark:text-zinc-300
-                               hover:bg-primary-50 dark:hover:bg-primary-900/20
-                               hover:text-primary-600 dark:hover:text-primary-400
+                    onClick={() => jump(item.href)}
+                    className="w-full text-left px-4 py-3 rounded-xl text-[15px] font-medium
+                               text-ink-700 dark:text-cream-200
+                               hover:bg-seafoam-50 dark:hover:bg-night-800
+                               hover:text-seafoam-700 dark:hover:text-seafoam-400
                                transition-all duration-200"
                   >
                     {item.label}
@@ -190,8 +178,8 @@ export default function Header() {
                 ))}
               </nav>
 
-              <div className="p-5 border-t border-zinc-200 dark:border-zinc-800">
-                <div className="flex items-center gap-3 mb-4">
+              <div className="px-5 py-4 border-t border-cream-300 dark:border-night-800 space-y-4">
+                <div className="flex gap-2.5">
                   {socialLinks.map(({ icon: Icon, href, label }) => (
                     <a
                       key={label}
@@ -199,22 +187,19 @@ export default function Header() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800
-                                 text-zinc-600 dark:text-zinc-400
-                                 hover:bg-primary-100 dark:hover:bg-primary-900/30
-                                 hover:text-primary-600 dark:hover:text-primary-400
+                      className="p-2.5 rounded-lg bg-cream-200 dark:bg-night-800 text-ink-600 dark:text-ink-400
+                                 hover:bg-seafoam-100 dark:hover:bg-seafoam-900/30 hover:text-seafoam-700 dark:hover:text-seafoam-400
                                  transition-all duration-200"
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-4 w-4" />
                     </a>
                   ))}
                 </div>
                 <a
                   href="mailto:osualdiradukunda16@gmail.com"
-                  className="block w-full text-center py-3 px-4 rounded-xl
-                             bg-gradient-to-r from-primary-600 to-secondary-600
-                             text-white font-semibold text-sm
-                             hover:opacity-90 transition-opacity"
+                  className="block w-full text-center py-2.5 px-4 rounded-xl
+                             bg-seafoam-500 hover:bg-seafoam-600 text-white font-semibold text-sm
+                             transition-colors duration-200"
                 >
                   Hire Me
                 </a>

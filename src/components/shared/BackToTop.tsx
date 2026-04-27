@@ -26,9 +26,9 @@ export default function BackToTop() {
           onClick={scrollToTop}
           aria-label="Back to top"
           className="fixed bottom-8 right-6 z-50 p-3 rounded-full
-                     bg-primary-600 hover:bg-primary-500 text-white
-                     shadow-lg shadow-primary-900/40
-                     focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2
+                     bg-seafoam-600 hover:bg-seafoam-700 text-white
+                     shadow-lg shadow-seafoam-800/30
+                     focus:outline-none focus:ring-2 focus:ring-seafoam-500 focus:ring-offset-2
                      transition-colors duration-200"
         >
           <ArrowUp className="h-5 w-5" />

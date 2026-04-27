@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -7,12 +6,6 @@ import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import ScrollProgress from "@/components/shared/ScrollProgress";
 import BackToTop from "@/components/shared/BackToTop";
 import { SITE } from "@/lib/constants";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -43,18 +36,26 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)",  color: "#080808" },
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: light)", color: "#FDF6EF" },
+    { media: "(prefers-color-scheme: dark)",  color: "#1A1C2E" },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
-      <body className={`${inter.variable} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="font-sans antialiased">
         <ThemeProvider>
           <ScrollProgress />
-          <div className="min-h-screen flex flex-col bg-surface-950 dark:bg-surface-950">
+          <div className="min-h-screen flex flex-col bg-cream-100 dark:bg-night-950">
             <Header />
             <main className="flex-grow" id="main-content">
               {children}
