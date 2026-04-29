@@ -206,7 +206,7 @@ export default function Contact() {
                       <label htmlFor="email" className="block text-xs font-medium text-ink-500 dark:text-ink-400 mb-1.5">
                         Email <span className="text-red-400">*</span>
                       </label>
-                      <input id="email" name="from_email" type="email" value={form.email} onChange={handleChange}
+                      <input id="email" name="email" type="email" value={form.email} onChange={handleChange}
                         placeholder="john@example.com" className={fieldClass("email")} autoComplete="email" />
                       {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
                     </div>
@@ -233,6 +233,7 @@ export default function Contact() {
                   </div>
 
                   <input type="hidden" name="from_name" value={form.name} />
+                  <input type="hidden" name="from_email" value={form.email} />
 
                   <button
                     type="submit"
